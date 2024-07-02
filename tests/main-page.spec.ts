@@ -11,7 +11,7 @@ import { main_page_startup } from './common';
  * @param {import('@playwright/test').Page} page - The Playwright page object.
  */
 test('test_main_start_page', async ({ page }) => {
-  await page.goto('http://localhost:3000/');
+  await page.goto('http://127.0.0.1:3000/');
 
   // Check the main_page_startup pages
   await main_page_startup(page);
@@ -29,7 +29,7 @@ test('test_main_start_page', async ({ page }) => {
  */
 test('test_main_click_moonshot_logo', async ({ page }) => {
   // Navigate to the startup page
-  await page.goto('http://localhost:3000/');
+  await page.goto('http://127.0.0.1:3000/');
   
   // Click on the AIVerify Moonshot Logo
   await page.getByRole('img', { name: 'AIVerify Moonshot Logo' }).click();
@@ -51,7 +51,7 @@ test('test_main_click_moonshot_logo', async ({ page }) => {
  */
 test('test_main_click_moonshot_bell', async ({ page }) => {
   // Navigate to the startup page
-  await page.goto('http://localhost:3000/');
+  await page.goto('http://127.0.0.1:3000/');
   
   // Click on the moonshot bell to open the notification box
   await page.getByRole('banner').locator('path').first().click();
@@ -87,7 +87,7 @@ test('test_main_click_moonshot_bell', async ({ page }) => {
  */
 test('test_main_random_clicking', async ({ page }) => {
   // Navigate to the startup page
-  await page.goto('http://localhost:3000/');
+  await page.goto('http://127.0.0.1:3000/');
 
   // Click on a div with specific text
   await page.locator('div').filter({ hasText: 'Focus on what\'s important,' }).first().click();
