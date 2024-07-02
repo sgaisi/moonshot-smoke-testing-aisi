@@ -59,7 +59,7 @@ export default defineConfig({
         deviceScaleFactor: undefined,
         viewport: null,
         launchOptions: {
-          args: ['--start-maximized'],
+          // args: ['--start-maximized'],
         },
       },
     },
