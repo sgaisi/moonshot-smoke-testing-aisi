@@ -1,5 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const testRailOptions = {
+  // Whether to add <properties> with all annotations; default is false
+  embedAnnotationsAsProperties: true,
+
+  // textContentAnnotations: ['testrail_case_field'],
+
+  // Where to put the report.
+  outputFile: './test-results/junit-report.xml'
+}
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -20,7 +30,11 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['list'],
+    ['html', { outFolder: 'test-results', open: 'never'}],
+    ['junit', testRailOptions ]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -29,6 +43,7 @@ export default defineConfig({
     launchOptions: {
       // 1
       args: ["--start-maximized"],
+      slowMo: 300
     },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -44,7 +59,7 @@ export default defineConfig({
         deviceScaleFactor: undefined,
         viewport: null,
         launchOptions: {
-          args: ['--start-maximized']
+          args: ['--start-maximized'],
         },
       },
     },
