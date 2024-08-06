@@ -21,6 +21,8 @@ const testRailOptions = {
  */
 export default defineConfig({
   testDir: './tests',
+  /* Test Timeout */
+  timeout: 30000 * 1000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -42,7 +44,7 @@ export default defineConfig({
 
     launchOptions: {
       // 1
-      args: ["--start-maximized"],
+      // args: ["--start-maximized"],
       slowMo: 300
     },
 
@@ -59,15 +61,15 @@ export default defineConfig({
         deviceScaleFactor: undefined,
         viewport: null,
         launchOptions: {
-          // args: ['--start-maximized'],
+          args: ['--start-maximized'],
         },
       },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
     // {
     //   name: 'webkit',
