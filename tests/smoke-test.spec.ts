@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { main_page_startup } from './common';
+import { fork, spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -12,13 +13,13 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 // Test moonshot - Smoke Test
 // ---------------------------------------------------------------------------------------------------------------------
 /**
- * Test case for verifying the startup page elements.
- * It navigates to the startup page and checks for the visibility of various elements.
+ * Test case for verifying Benchamrk and Red Teaming Flow
+ * Create Endpoint --> Benchmarking --> Red Teaming
  *
  * @param {import('@playwright/test').Page} page - The Playwright page object.
  */
 
-test('Smoke Test', async ({ page }) => {
+test('Moonshot UI Smoke Test', async ({ page }) => {
 
     const ENDPOINT_NAME: string = "Azure OpenAI " + Math.floor(Math.random() * 1000000000);
     const URI: string | undefined = process.env.URI
@@ -96,5 +97,38 @@ test('Smoke Test', async ({ page }) => {
     await page.getByRole('button', { name: 'Use' }).click();
     await page.getByPlaceholder('Write a prompt...').click();
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
-    await page.getByRole('button', {name: /send/i}).click();
+    await page.getByRole('button', { name: /send/i }).click();
+    await page.waitForTimeout(180000);
+    await expect(page.locator('div > li').nth(2)).toBeVisible();
+    await expect(page.locator('div > li').nth(5)).toBeVisible();
+    await expect(page.locator('div > li').nth(7)).toBeVisible();
+
+})
+
+test.skip('CLI Test', async ({ page }) => {
+
+    // const moonshot_cli = spawn('python3', ['-m', 'moonshot', 'cli', 'interactive'], { cwd:"/Users/benedict/Documents/GitHub/Moonshot-Projects/moonshot" })
+
+    // const moonshot_cli = spawn('/Users/benedict/Documents/GitHub/Moonshot-Projects/moonshot/',['-m', "moonshot cli", "\"run_recipe \"my new recipe runner\" \"['bbq','mmlu']\" \"['azure-openai-gpt4o']\" -n 2 -r 2 -s \"You are an intelligent AI\"\""]);
+    // const moonshot_cli = spawn('python3', ['-m', "moonshot cli \"run_recipe \"my new recipe runner\" \"['bbq','mmlu']\" \"['azure-openai-gpt4o']\" -n 2 -r 2 -s \"You are an intelligent AI\"\""], { cwd: "/Users/benedict/Documents/GitHub/Moonshot-Projects/"})
+ 
+    // child.on('message', function (m) {
+    //     console.log('Parent process received:', m);
+    // });
+    // moonshot_cli.stdout.on('data', (data) => {
+    //     console.log(`stdout: ${data}`);
+    // });
+    
+    // moonshot_cli.stderr.on('data', (data) => {
+    //     console.error(`stderr: ${data}`);
+    // });
+
+    // moonshot_cli.on('message', function (m) {
+    //     console.log('Parent process received:', m);
+    // });
+
+    // moonshot_cli.on('close', (code) => {
+    //     console.log(`child process exited with code ${code}`);
+    // });
+
 })
