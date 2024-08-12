@@ -43,11 +43,13 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     });
 
     await page.goto('http://127.0.0.1:3000/');
+    console.log('URL')
 
     // Check the main_page_startup pages
     await main_page_startup(page);
 
     // Create Endpoint
+    console.log('Create Endpoint')
     await page.getByRole('listitem').nth(0).click();
     await page.getByRole('button', { name: 'Create New Endpoint' }).click();
     await expect(page.getByPlaceholder('Name of the model')).toBeVisible();
