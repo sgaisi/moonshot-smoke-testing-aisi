@@ -59,13 +59,16 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByPlaceholder('URI of the remote model').fill(URI!);
     await page.getByPlaceholder('Access token for the remote').click();
     await page.getByPlaceholder('Access token for the remote').fill(TOKEN!);
+    console.log('Pass Token')
     await page.getByText('More Configs').click();
     await page.getByPlaceholder('Additional parameters').click();
     await page.getByPlaceholder('Additional parameters').fill(ADDITIONAL_PARAMETERS!);
+    console.log('Pass ADDITIONAL_PARAMETERS')
     await page.getByRole('button', { name: 'OK' }).click();
     await page.getByRole('button', { name: 'Save' }).click();
 
     // Benchmarking
+    console.log('Benchmarking')
     await page.getByRole('listitem').nth(1).click();
     await page.getByRole('button', { name: 'Start New Run' }).click();
     await page.getByRole('button', { name: 'Hard test sets for Common' }).click();
@@ -91,6 +94,7 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByText(/back to home/i).click()
 
     // Red Teaming
+    console.log('Red Teaming')
     await page.getByRole('listitem').nth(2).click();
     await page.getByRole('button', { name: 'Start New Session' }).click();
     await page.getByText(ENDPOINT_NAME!).click();
@@ -114,6 +118,7 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await expect(page.locator('div > li').nth(7)).toBeVisible();
 
     // Utilities
+    console.log('Utilities')
     await open_home_page_select_util_tab(page)
     await page.getByRole('button', { name: 'View Prompt Templates' }).click();
     await expect(page.locator('header').filter({ hasText: 'Prompt Templates' })).toBeVisible();
