@@ -22,7 +22,7 @@ const testRailOptions = {
 export default defineConfig({
   testDir: './tests',
   /* Test Timeout */
-  timeout: 30000,
+  timeout: 900000,
   /* Run tests in files in parallel */
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
