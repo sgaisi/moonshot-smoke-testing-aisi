@@ -43,7 +43,6 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     });
 
     await page.goto('http://127.0.0.1:3000/');
-    console.log('URL')
 
     // Check the main_page_startup pages
     await main_page_startup(page);
@@ -52,7 +51,6 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     console.log('Create Endpoint')
     await page.getByRole('listitem').nth(0).click();
     await page.getByRole('button', { name: 'Create New Endpoint' }).click();
-    await expect(page.getByPlaceholder('Name of the model')).toBeVisible();
     await page.getByPlaceholder('Name of the model').click();
     await page.getByPlaceholder('Name of the model').fill(ENDPOINT_NAME);
     await page.locator('.aiv__input-container').click();
@@ -61,11 +59,9 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByPlaceholder('URI of the remote model').fill(URI!);
     await page.getByPlaceholder('Access token for the remote').click();
     await page.getByPlaceholder('Access token for the remote').fill(TOKEN!);
-    console.log('Pass Token')
     await page.getByText('More Configs').click();
     await page.getByPlaceholder('Additional parameters').click();
     await page.getByPlaceholder('Additional parameters').fill(ADDITIONAL_PARAMETERS!);
-    console.log('Pass ADDITIONAL_PARAMETERS')
     await page.getByRole('button', { name: 'OK' }).click();
     await page.getByRole('button', { name: 'Save' }).click();
 
