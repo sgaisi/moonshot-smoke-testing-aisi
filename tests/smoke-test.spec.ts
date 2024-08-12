@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { main_page_startup } from './common';
-import { fork, spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -18,6 +17,17 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
  *
  * @param {import('@playwright/test').Page} page - The Playwright page object.
  */
+
+async function open_home_page_select_util_tab(page) {
+    // Check if the left panel is correct and visible by looking for unique text within it (has the Added on)
+    await page.goto('http://localhost:3000/');
+    await main_page_startup(page);
+    const linkTabButton = page.locator('#navContainer').getByRole('link').nth(4)
+    await expect(linkTabButton).toBeVisible();
+    await linkTabButton.click();
+    // Assertion for redirecting to right page
+    await expect(page.getByRole('heading', { name: 'moonshot utilities' })).toBeVisible();
+}
 
 test('Moonshot UI Smoke Test', async ({ page }) => {
 
@@ -98,11 +108,23 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByPlaceholder('Write a prompt...').click();
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
     await page.getByRole('button', { name: /send/i }).click();
-    await page.waitForTimeout(180000);
+    await page.waitForTimeout(120000);
     await expect(page.locator('div > li').nth(2)).toBeVisible();
     await expect(page.locator('div > li').nth(5)).toBeVisible();
     await expect(page.locator('div > li').nth(7)).toBeVisible();
 
+    // Utilities
+    await open_home_page_select_util_tab(page)
+    await page.getByRole('button', { name: 'View Prompt Templates' }).click();
+    await expect(page.locator('header').filter({ hasText: 'Prompt Templates' })).toBeVisible();
+    await expect(page.locator('li').filter({ hasText: 'tamil-templatenewsclassificationThis template is used for Tamil News' })).toBeVisible();
+
+    await open_home_page_select_util_tab(page)
+    await expect(page.getByRole('heading', { name: 'moonshot utilities' })).toBeVisible();
+    await page.getByRole('button', { name: 'View Context Strategies' }).click();
+    await expect(page.getByRole('heading', { name: 'Context Strategies' })).toBeVisible();
+    await expect(page.locator('h4').nth(0)).toContainText('Add Previous Prompt');
+    await expect(page.locator('body')).toContainText('This is a sample context strategy that adds in previous prompts to the current prompt. [Default: 5]');
 })
 
 test.skip('CLI Test', async ({ page }) => {
@@ -111,14 +133,14 @@ test.skip('CLI Test', async ({ page }) => {
 
     // const moonshot_cli = spawn('/Users/benedict/Documents/GitHub/Moonshot-Projects/moonshot/',['-m', "moonshot cli", "\"run_recipe \"my new recipe runner\" \"['bbq','mmlu']\" \"['azure-openai-gpt4o']\" -n 2 -r 2 -s \"You are an intelligent AI\"\""]);
     // const moonshot_cli = spawn('python3', ['-m', "moonshot cli \"run_recipe \"my new recipe runner\" \"['bbq','mmlu']\" \"['azure-openai-gpt4o']\" -n 2 -r 2 -s \"You are an intelligent AI\"\""], { cwd: "/Users/benedict/Documents/GitHub/Moonshot-Projects/"})
- 
+
     // child.on('message', function (m) {
     //     console.log('Parent process received:', m);
     // });
     // moonshot_cli.stdout.on('data', (data) => {
     //     console.log(`stdout: ${data}`);
     // });
-    
+
     // moonshot_cli.stderr.on('data', (data) => {
     //     console.error(`stderr: ${data}`);
     // });
