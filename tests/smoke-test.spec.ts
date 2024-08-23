@@ -32,8 +32,8 @@ async function open_home_page_select_util_tab(page) {
 test('Moonshot UI Smoke Test', async ({ page }) => {
 
     const ENDPOINT_NAME: string = "Azure OpenAI " + Math.floor(Math.random() * 1000000000);
-    const URI: string | undefined = process.env.URI
-    const TOKEN: string | undefined = process.env.TOKEN
+    const AZURE_OPENAI_URI: string | undefined = process.env.AZURE_OPENAI_URI
+    const AZURE_OPENAI_TOKEN: string | undefined = process.env.AZURE_OPENAI_TOKEN
 
     const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS
 
@@ -56,9 +56,9 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.locator('.aiv__input-container').click();
     await page.getByRole('option', { name: 'azure-openai-connector' }).click();
     await page.getByPlaceholder('URI of the remote model').click();
-    await page.getByPlaceholder('URI of the remote model').fill(URI!);
+    await page.getByPlaceholder('URI of the remote model').fill(AZURE_OPENAI_URI!);
     await page.getByPlaceholder('Access token for the remote').click();
-    await page.getByPlaceholder('Access token for the remote').fill(TOKEN!);
+    await page.getByPlaceholder('Access token for the remote').fill(AZURE_OPENAI_TOKEN!);
     await page.getByText('More Configs').click();
     await page.getByPlaceholder('Additional parameters').click();
     await page.getByPlaceholder('Additional parameters').fill(ADDITIONAL_PARAMETERS!);
