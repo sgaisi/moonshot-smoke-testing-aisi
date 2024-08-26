@@ -18,31 +18,33 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
  * @param {import('@playwright/test').Page} page - The Playwright page object.
  */
 
-async function open_home_page_select_util_tab(page) {
+async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONSHOT_PORT_NUMBER: string) {
     // Check if the left panel is correct and visible by looking for unique text within it (has the Added on)
-    await page.goto('http://localhost:3000/');
+    await page.goto(MOONSHOT_URL! + ":" + MOOONSHOT_PORT_NUMBER!);
     await main_page_startup(page);
     const linkTabButton = page.locator('#navContainer').getByRole('link').nth(4)
     await expect(linkTabButton).toBeVisible();
     await linkTabButton.click();
+
     // Assertion for redirecting to right page
     await expect(page.getByRole('heading', { name: 'moonshot utilities' })).toBeVisible();
 }
 
 test('Moonshot UI Smoke Test', async ({ page }) => {
 
+    const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS;
+    const AZURE_OPENAI_URI: string | undefined = process.env.AZURE_OPENAI_URI;
+    const AZURE_OPENAI_TOKEN: string | undefined = process.env.AZURE_OPENAI_TOKEN;
     const ENDPOINT_NAME: string = "Azure OpenAI " + Math.floor(Math.random() * 1000000000);
-    const AZURE_OPENAI_URI: string | undefined = process.env.AZURE_OPENAI_URI
-    const AZURE_OPENAI_TOKEN: string | undefined = process.env.AZURE_OPENAI_TOKEN
-
-    const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS
+    const MOONSHOT_URL: string | undefined = process.env.MOONSHOT_URL;
+    const MOONSHOT_PORT_NUMBER: string | undefined = process.env.MOONSHOT_PORT_NUMBER;
 
     await page.setViewportSize({
         width: 1920,
         height: 1080,
     });
 
-    await page.goto('http://127.0.0.1:3000/');
+    await page.goto(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!);
 
     // Check the main_page_startup pages
     await main_page_startup(page);
@@ -112,17 +114,17 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByRole('button', { name: /send/i }).click();
     await page.waitForTimeout(120000);
     await expect(page.locator('div > li').nth(2)).toBeVisible();
-    await expect(page.locator('div > li').nth(5)).toBeVisible();
+    await expect(page.locator('div > li').nth(4)).toBeVisible();
     await expect(page.locator('div > li').nth(7)).toBeVisible();
 
     // Utilities
     console.log('Utilities')
-    await open_home_page_select_util_tab(page)
+    await open_home_page_select_util_tab(page, MOONSHOT_URL!, MOONSHOT_PORT_NUMBER!)
     await page.getByRole('button', { name: 'View Prompt Templates' }).click();
     await expect(page.locator('header').filter({ hasText: 'Prompt Templates' })).toBeVisible();
     await expect(page.locator('li').filter({ hasText: 'tamil-templatenewsclassificationThis template is used for Tamil News' })).toBeVisible();
 
-    await open_home_page_select_util_tab(page)
+    await open_home_page_select_util_tab(page, MOONSHOT_URL!, MOONSHOT_PORT_NUMBER!)
     await expect(page.getByRole('heading', { name: 'moonshot utilities' })).toBeVisible();
     await page.getByRole('button', { name: 'View Context Strategies' }).click();
     await expect(page.getByRole('heading', { name: 'Context Strategies' })).toBeVisible();
