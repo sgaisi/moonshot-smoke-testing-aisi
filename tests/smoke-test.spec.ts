@@ -113,8 +113,8 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
     await page.getByRole('button', { name: /send/i }).click();
     await page.waitForTimeout(240000);
-    await expect(page.locator('div > li').nth(2)).toBeVisible();
-    await expect(page.locator('div > li').nth(4)).toBeVisible();
+    await expect(page.locator('div > li').nth(0)).toBeVisible();
+    await expect(page.locator('div > li').nth(1)).toBeVisible();
     await expect(page.locator('div > li').nth(7)).toBeVisible();
 
     // Utilities
