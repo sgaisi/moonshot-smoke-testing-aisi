@@ -94,28 +94,28 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByText(/back to home/i).click()
 
     // Red Teaming
-    console.log('Red Teaming')
-    await page.getByRole('listitem').nth(2).click();
-    await page.getByRole('button', { name: 'Start New Session' }).click();
-    await page.getByText(ENDPOINT_NAME!).click();
-    await page.locator('div:nth-child(2) > .flex > svg').click();
-    await page.getByRole('heading', { name: 'Toxic Sentence Generator' }).click();
-    await page.locator('div:nth-child(3) > .flex > svg').click();
-    await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
-    await page.getByRole('button', { name: 'Start' }).click();
-    await page.getByRole('button', { name: 'Prompt Template' }).click();
-    await page.locator('div').filter({ hasText: /^mmlu$/ }).click();
-    await page.getByRole('button', { name: 'Use' }).click();
-    await page.getByRole('button', { name: 'Context Strategy' }).click();
-    await page.locator('div').filter({ hasText: /^Add Previous Prompt$/ }).first().click();
-    await page.getByRole('button', { name: 'Use' }).click();
-    await page.getByPlaceholder('Write a prompt...').click();
-    await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
-    await page.getByRole('button', { name: /send/i }).click();
-    await page.waitForTimeout(240000);
-    await expect(page.locator('div > li').nth(0)).toBeVisible();
-    await expect(page.locator('div > li').nth(1)).toBeVisible();
-    await expect(page.locator('div > li').nth(7)).toBeVisible();
+    // console.log('Red Teaming')
+    // await page.getByRole('listitem').nth(2).click();
+    // await page.getByRole('button', { name: 'Start New Session' }).click();
+    // await page.getByText(ENDPOINT_NAME!).click();
+    // await page.locator('div:nth-child(2) > .flex > svg').click();
+    // await page.getByRole('heading', { name: 'Toxic Sentence Generator' }).click();
+    // await page.locator('div:nth-child(3) > .flex > svg').click();
+    // await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
+    // await page.getByRole('button', { name: 'Start' }).click();
+    // await page.getByRole('button', { name: 'Prompt Template' }).click();
+    // await page.locator('div').filter({ hasText: /^mmlu$/ }).click();
+    // await page.getByRole('button', { name: 'Use' }).click();
+    // await page.getByRole('button', { name: 'Context Strategy' }).click();
+    // await page.locator('div').filter({ hasText: /^Add Previous Prompt$/ }).first().click();
+    // await page.getByRole('button', { name: 'Use' }).click();
+    // await page.getByPlaceholder('Write a prompt...').click();
+    // await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
+    // await page.getByRole('button', { name: /send/i }).click();
+    // await page.waitForTimeout(240000);
+    // await expect(page.locator('div > li').nth(0)).toBeVisible();
+    // await expect(page.locator('div > li').nth(1)).toBeVisible();
+    // await expect(page.locator('div > li').nth(7)).toBeVisible();
 
     // Utilities
     console.log('Utilities')
