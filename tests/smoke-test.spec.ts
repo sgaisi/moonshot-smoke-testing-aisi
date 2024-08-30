@@ -93,7 +93,7 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.locator('main').filter({ hasText: 'Showing results forazure-' }).getByRole('link').first().click();
     await page.getByText(/back to home/i).click()
 
-    Red Teaming
+    // Red Teaming
     console.log('Red Teaming')
     await page.getByRole('listitem').nth(2).click();
     await page.getByRole('button', { name: 'Start New Session' }).click();
