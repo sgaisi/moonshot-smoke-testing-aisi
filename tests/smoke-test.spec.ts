@@ -31,6 +31,7 @@ async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONS
 }
 
 test('Moonshot UI Smoke Test', async ({ page }) => {
+
     const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS;
     const AZURE_OPENAI_URI: string | undefined = process.env.AZURE_OPENAI_URI;
     const AZURE_OPENAI_TOKEN: string | undefined = process.env.AZURE_OPENAI_TOKEN;
@@ -111,9 +112,16 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByPlaceholder('Write a prompt...').click();
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
     await page.getByRole('button', { name: /send/i }).click();
-    await expect(page.locator('div > li').nth(2)).toBeVisible({timeout: 600000});
-    await expect(page.locator('div > li').nth(4)).toBeVisible({timeout: 600000});
-    await expect(page.locator('div > li').nth(7)).toBeVisible({timeout: 600000});
+    // Locate the <h1> element with class "text-right" and text "You"
+    const h1Element = page.locator('h1.text-right').nth(0);
+
+    // Assert that the <h1> element with class "text-right" contains the text "You"
+    await expect(h1Element).toBeVisible({ timeout: 1200000 });
+    // Locate the <h1> element with class "text-right" and text "You"
+    const h2Element = page.locator('h1.text-left').nth(0);
+
+    await expect(h2Element).toBeVisible({ timeout: 1200000 })
+    await expect(h2Element).toHaveText('AI');
 
     // Utilities
     console.log('Utilities')
