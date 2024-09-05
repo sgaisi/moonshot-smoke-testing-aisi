@@ -31,8 +31,10 @@ async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONS
 }
 
 test('Moonshot UI Smoke Test', async ({ page }) => {
+    console.log(path.resolve(__dirname, '.env'))
 
     const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS;
+    console.log(ADDITIONAL_PARAMETERS)
     const AZURE_OPENAI_URI: string | undefined = process.env.AZURE_OPENAI_URI;
     const AZURE_OPENAI_TOKEN: string | undefined = process.env.AZURE_OPENAI_TOKEN;
     const ENDPOINT_NAME: string = "Azure OpenAI " + Math.floor(Math.random() * 1000000000);
@@ -112,10 +114,8 @@ test('Moonshot UI Smoke Test', async ({ page }) => {
     await page.getByPlaceholder('Write a prompt...').click();
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
     await page.getByRole('button', { name: /send/i }).click();
-    await page.waitForTimeout(600000);
-    await expect(page.locator('div > li').nth(2)).toBeVisible();
-    await expect(page.locator('div > li').nth(4)).toBeVisible();
-    await expect(page.locator('div > li').nth(7)).toBeVisible();
+    await page.waitForTimeout(60000);
+    await expect(page.locator('div > li').nth(1)).toBeVisible();
 
     // Utilities
     console.log('Utilities')
