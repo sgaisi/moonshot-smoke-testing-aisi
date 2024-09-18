@@ -114,14 +114,14 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByRole('button', {name: /send/i}).click();
     // Locate the <h1> element with class "text-right" and text "You"
     const h1Element = page.locator('h1.text-right').nth(0);
-
     // Assert that the <h1> element with class "text-right" contains the text "You"
     await expect(h1Element).toBeVisible({timeout: 1200000});
+    await expect(h1Element).toHaveText('Automated red teaming agent');
     // Locate the <h1> element with class "text-right" and text "You"
     const h2Element = page.locator('h1.text-left').nth(0);
 
     await expect(h2Element).toBeVisible({timeout: 1200000})
-    await expect(h2Element).toHaveText('AI');
+    await expect(h2Element).toHaveText('Response');
 
     // Utilities
     console.log('Utilities')
