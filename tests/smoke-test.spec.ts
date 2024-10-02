@@ -1,8 +1,6 @@
 import {test, expect} from '@playwright/test';
 import {main_page_startup} from './common';
-import dotenv from 'dotenv';
-// import path from 'path';
-require('dotenv').config();
+
 
 
 // const __dirname: string = '.'
