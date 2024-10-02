@@ -13,6 +13,7 @@ def test_cli_benchmark():
     command = (
         # 'cd .. &&'
         # 'cd moonshot &&'
+        'source venv/bin/activate &&'
         'python3 -m moonshot cli interactive'
     )
 
@@ -47,7 +48,6 @@ def test_cli_benchmark():
     command = 'run_cookbook "' + nameOfRunnerName + '" "[\'chinese-safety-cookbook\']" "[\'azure-openai-gpt4o\']" -n 1 -r 1 -s "You are an intelligent AI"\n'
     # Example command to send to the process
     process.stdin.write(command)
-    print('Command:', command)
     process.stdin.flush()
 
     # Capture the output and errors
