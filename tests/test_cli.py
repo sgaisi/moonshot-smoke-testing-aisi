@@ -24,7 +24,7 @@ def test_cli_benchmark():
         stderr=subprocess.PIPE,
         stdin=subprocess.PIPE,
         text=True,
-        cwd="/home/runner/work/moonshot-data/moonshot-data",
+        cwd="/home/runner/work/moonshot-data",
     )
     # Ensure process.stdin is not None
     if process.stdin is None:
