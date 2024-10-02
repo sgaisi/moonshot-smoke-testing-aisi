@@ -23,7 +23,7 @@ def test_cli_benchmark():
         stderr=subprocess.PIPE,
         stdin=subprocess.PIPE,
         text=True,
-        cwd="/Users/jacksonboey/PycharmProjects/moonshot",
+        cwd="/home/runner/work/moonshot-data/moonshot-data",
     )
     # Ensure process.stdin is not None
     if process.stdin is None:
@@ -44,10 +44,10 @@ def test_cli_benchmark():
     random_number = int(random.random() * 1000000000)
     nameOfRunnerFileName = "my-benchmarking-runner-" + str(random_number)
     nameOfRunnerName = "my benchmarking runner " + str(random_number)
-
+    command = 'run_cookbook "' + nameOfRunnerName + '" "[\'chinese-safety-cookbook\']" "[\'azure-openai-gpt4o\']" -n 1 -r 1 -s "You are an intelligent AI"\n'
     # Example command to send to the process
-    process.stdin.write(
-        'run_cookbook "' + nameOfRunnerName + '" "[\'chinese-safety-cookbook\']" "[\'azure-openai-gpt4o\']" -n 1 -r 1 -s "You are an intelligent AI"\n')
+    process.stdin.write(command)
+    print('Command:', command)
     process.stdin.flush()
 
     # Capture the output and errors
