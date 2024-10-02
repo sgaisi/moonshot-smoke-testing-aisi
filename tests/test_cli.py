@@ -13,7 +13,7 @@ def test_cli_benchmark():
     command = (
         # 'cd .. &&'
         # 'cd moonshot &&'
-        'source venv/bin/activate &&'
+        # 'source venv/bin/activate &&'
         'python3 -m moonshot cli interactive'
     )
 
