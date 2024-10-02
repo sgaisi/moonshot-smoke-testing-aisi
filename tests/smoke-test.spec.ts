@@ -1,12 +1,13 @@
 import {test, expect} from '@playwright/test';
 import {main_page_startup} from './common';
+import dotenv from 'dotenv';
+import path from 'path';
 
 
+const __dirname: string = '.'
 
-// const __dirname: string = '.'
-//
-// // Read from ".env" file.
-// dotenv.config({path: path.resolve(__dirname, '.env')});
+// Read from ".env" file.
+dotenv.config({path: path.resolve(__dirname, '.env')});
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Test moonshot - Smoke Test
