@@ -30,6 +30,7 @@ def test_cli_benchmark():
         #/home/runner/work/moonshot-data/moonshot-data for moonshot data repo
         #/home/runner/work/moonshot/moonshot-data for moonshot repo
     )
+    print('Path:', str(CLI_DIR))
     # Ensure process.stdin is not None
     if process.stdin is None:
         raise RuntimeError("Failed to create stdin for the subprocess")
