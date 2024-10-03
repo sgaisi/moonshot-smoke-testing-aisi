@@ -9,6 +9,7 @@ load_dotenv()  # Load environment variables from .env file
 
 AZURE_OPENAI_URI = os.getenv('AZURE_OPENAI_URI')
 AZURE_OPENAI_TOKEN = os.getenv('AZURE_OPENAI_TOKEN')
+CLI_DIR = os.getenv('CLI_DIR')
 def test_cli_benchmark():
     command = (
         # 'cd .. &&'
@@ -24,7 +25,10 @@ def test_cli_benchmark():
         stderr=subprocess.PIPE,
         stdin=subprocess.PIPE,
         text=True,
-        cwd="/home/runner/work/moonshot-data/moonshot-data",
+        cwd=str(CLI_DIR),
+        # cwd="/Users/jacksonboey/PycharmProjects/moonshot",
+        #/home/runner/work/moonshot-data/moonshot-data for moonshot data repo
+        #/home/runner/work/moonshot/moonshot-data for moonshot repo
     )
     # Ensure process.stdin is not None
     if process.stdin is None:
