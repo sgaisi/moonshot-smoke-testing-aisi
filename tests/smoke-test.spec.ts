@@ -45,7 +45,9 @@ test('Moonshot UI Smoke Test', async ({page}) => {
         height: 1080,
     });
 
+    console.log(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!)
     await page.goto(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!);
+
 
     // Check the main_page_startup pages
     await main_page_startup(page);
@@ -80,8 +82,8 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByLabel('Next View').click();
     await page.getByPlaceholder('Give this session a unique').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
-    await page.getByPlaceholder('Number of prompts perrecipe.').click();
-    await page.getByPlaceholder('Number of prompts perrecipe.').fill('1');
+    await page.getByPlaceholder('Number of prompts per recipe.').click();
+    await page.getByPlaceholder('Number of prompts per recipe.').fill('1');
     await page.getByRole('button', {name: 'Run'}).click();
     await expect(page.getByRole('button', {name: 'View Report'})).toBeVisible({timeout: 60000})
     await page.getByRole('button', {name: 'View Report'}).click();
