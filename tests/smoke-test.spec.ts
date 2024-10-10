@@ -103,7 +103,9 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByLabel('Select ' + ENDPOINT_NAME).click();
     await page.locator('div:nth-child(2) > .flex > svg').click();
     console.log("Waiting for heading...");
-    await page.waitForSelector('role=heading[name="Toxic Sentence Generator"]', {timeout: 15000});
+    await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).waitFor({timeout: 15000});
+    await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
+
     console.log("Heading found, checking visibility...");
 
     const heading = await page.locator('role=heading[name="Toxic Sentence Generator"]');
