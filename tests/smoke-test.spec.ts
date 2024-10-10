@@ -78,7 +78,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByLabel('Select common-risk-easy').check();
     await page.getByRole('button', {name: 'OK'}).click();
     await page.getByLabel('Next View').click();
-    await page.getByLabel('Select '+ENDPOINT_NAME).check();
+    await page.getByLabel('Select ' + ENDPOINT_NAME).check();
     await page.getByLabel('Next View').click();
     await page.getByPlaceholder('Give this session a unique').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
@@ -100,9 +100,18 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('Red Teaming')
     await page.getByRole('listitem').nth(2).click();
     await page.getByRole('button', {name: 'Start New Session'}).click();
-    await page.getByLabel('Select '+ENDPOINT_NAME).check();
+    await page.getByLabel('Select ' + ENDPOINT_NAME).check();
     await page.locator('div:nth-child(2) > .flex > svg').click();
-    await page.getByRole('heading',{ name: 'Toxic Sentence Generator'}).click();
+    console.log("Waiting for heading...");
+    await page.waitForSelector('role=heading[name="Toxic Sentence Generator"]', {timeout: 15000});
+    console.log("Heading found, checking visibility...");
+
+    const heading = await page.locator('role=heading[name="Toxic Sentence Generator"]');
+    await heading.waitFor({state: 'visible'});  // Ensure the heading is visible
+
+    console.log("Heading visible, clicking...");
+    await heading.click();
+
     await page.locator('div:nth-child(3) > .flex > svg').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
     await page.getByRole('button', {name: 'Start'}).click();
