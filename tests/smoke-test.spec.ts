@@ -115,6 +115,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByPlaceholder('Write a prompt...').click();
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
     await page.getByRole('button', {name: /send/i}).click();
+    console.log('Ran red teaming and waiting to expect')
     // Locate the <h1> element with class "text-right" and text "You"
     const h1Element = page.locator('h1.text-right').nth(0);
     // Assert that the <h1> element with class "text-right" contains the text "You"
