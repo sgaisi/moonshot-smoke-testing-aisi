@@ -100,7 +100,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('Red Teaming')
     await page.getByRole('listitem').nth(2).click();
     await page.getByRole('button', {name: 'Start New Session'}).click();
-    await page.getByText(ENDPOINT_NAME!).click();
+    await page.getByLabel('Select '+ENDPOINT_NAME).check();
     console.log('1')
     await page.locator('div:nth-child(2) > .flex > svg').click();
     await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
