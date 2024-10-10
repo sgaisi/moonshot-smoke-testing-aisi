@@ -101,18 +101,23 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByRole('listitem').nth(2).click();
     await page.getByRole('button', {name: 'Start New Session'}).click();
     await page.getByText(ENDPOINT_NAME!).click();
+    console.log('1')
     await page.locator('div:nth-child(2) > .flex > svg').click();
     await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
+    console.log('2')
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
     await page.getByRole('button', {name: 'Start'}).click();
     await page.getByRole('button', {name: 'Prompt Template'}).click();
+    console.log('3')
     await page.locator('div').filter({hasText: /^mmlu$/}).click();
     await page.getByRole('button', {name: 'Use'}).click();
     await page.getByRole('button', {name: 'Context Strategy'}).click();
+    console.log('4')
     await page.locator('div').filter({hasText: /^Add Previous Prompt$/}).first().click();
     await page.getByRole('button', {name: 'Use'}).click();
     await page.getByPlaceholder('Write a prompt...').click();
+    console.log('5')
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
     await page.getByRole('button', {name: /send/i}).click();
     console.log('Ran red teaming and waiting to expect')
