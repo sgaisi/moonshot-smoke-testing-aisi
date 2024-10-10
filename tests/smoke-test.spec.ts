@@ -102,7 +102,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByRole('button', {name: 'Start New Session'}).click();
     await page.getByLabel('Select '+ENDPOINT_NAME).check();
     await page.locator('div:nth-child(2) > .flex > svg').click();
-    await page.locator('li').filter({ hasText: 'Toxic Sentence GeneratorThis' }).click();
+    await page.getByRole('heading', { name: 'Toxic Sentence Generator' }).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
     await page.getByRole('button', {name: 'Start'}).click();
