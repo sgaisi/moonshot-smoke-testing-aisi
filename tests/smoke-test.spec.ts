@@ -102,8 +102,13 @@ test('test_red_teaming_spinner_check', async ({browserName, page}) => {
     console.log('Red Teaming')
     await page.getByRole('link', { name: 'Start Red Teaming' }).click();
     // await page.getByRole('button', {name: 'Start New Session'}).click();
+    await page.reload()
     await page.getByLabel('Select ' + ENDPOINT_NAME).check();
     await page.locator('div:nth-child(2) > .flex > svg').click();
+  await page.locator('.flex > .flex > svg').first().click();
+  await page.locator('div:nth-child(2) > .flex > svg').click();
+    const html = await page.content()
+    console.log(html)
     await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
     await page.getByPlaceholder('Give this session a unique').fill(RUNNER_NAME);
