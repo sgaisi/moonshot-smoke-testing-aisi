@@ -111,7 +111,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await expect(page.getByRole('heading', {name: 'Would you like to use any of'})).toBeVisible();
     console.log('pass page check')
     // Wait for a specific amount of time (in milliseconds)
-    await page.waitForTimeout(1200000); // Wait for 10 second
+    // await page.waitForTimeout(1200000); // Wait for 10 second
     console.log('finish countdown')
     await page.locator('.flex > .flex > svg').first().click();
     await page.locator('div:nth-child(2) > .flex > svg').click();
