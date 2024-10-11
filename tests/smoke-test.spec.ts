@@ -106,16 +106,15 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('1')
     await page.locator('div:nth-child(2) > .flex > svg').click();
     console.log('click next already')
+    const html = await page.content()
+    console.log(html)
     await expect(page.getByRole('heading', {name: 'Would you like to use any of'})).toBeVisible();
     console.log('pass page check')
     // Wait for a specific amount of time (in milliseconds)
     await page.waitForTimeout(10000); // Wait for 10 second
     console.log('finish countdown')
-    await page.locator('div:nth-child(2) > .flex > svg').click();
     await page.locator('.flex > .flex > svg').first().click();
     await page.locator('div:nth-child(2) > .flex > svg').click();
-    const html = await page.content()
-    console.log(html)
     await page.locator('li').filter({ hasText: 'Toxic Sentence GeneratorThis' }).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
     console.log('2')
