@@ -78,7 +78,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByLabel('Select common-risk-easy').check();
     await page.getByRole('button', {name: 'OK'}).click();
     await page.getByLabel('Next View').click();
-    await page.getByLabel('Select ' + ENDPOINT_NAME).click();
+    await page.getByLabel('Select '+ENDPOINT_NAME).check();
     await page.getByLabel('Next View').click();
     await page.getByPlaceholder('Give this session a unique').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
@@ -100,30 +100,25 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('Red Teaming')
     await page.getByRole('listitem').nth(2).click();
     await page.getByRole('button', {name: 'Start New Session'}).click();
-    await page.getByLabel('Select ' + ENDPOINT_NAME).click();
+    await page.getByText(ENDPOINT_NAME!).click();
+    console.log('1')
     await page.locator('div:nth-child(2) > .flex > svg').click();
-    console.log("Waiting for heading...");
-    await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).waitFor({timeout: 15000});
+    console.log('click next already')
     await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
-
-    console.log("Heading found, checking visibility...");
-
-    const heading = await page.locator('role=heading[name="Toxic Sentence Generator"]');
-    await heading.waitFor({state: 'visible'});  // Ensure the heading is visible
-
-    console.log("Heading visible, clicking...");
-    await heading.click();
-
     await page.locator('div:nth-child(3) > .flex > svg').click();
+    console.log('2')
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
     await page.getByRole('button', {name: 'Start'}).click();
     await page.getByRole('button', {name: 'Prompt Template'}).click();
+    console.log('3')
     await page.locator('div').filter({hasText: /^mmlu$/}).click();
     await page.getByRole('button', {name: 'Use'}).click();
     await page.getByRole('button', {name: 'Context Strategy'}).click();
+    console.log('4')
     await page.locator('div').filter({hasText: /^Add Previous Prompt$/}).first().click();
     await page.getByRole('button', {name: 'Use'}).click();
     await page.getByPlaceholder('Write a prompt...').click();
+    console.log('5')
     await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
     await page.getByRole('button', {name: /send/i}).click();
     console.log('Ran red teaming and waiting to expect')
