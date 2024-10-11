@@ -109,7 +109,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     // Wait for a specific amount of time (in milliseconds)
     await page.waitForTimeout(10000); // Wait for 1 second
     console.log('finish countdown')
-    await page.getByText('This module generates toxic').click();
+    await expect(page.getByText('This module generates toxic')).toBeVisible({timeout: 60000})
     await page.locator('div:nth-child(3) > .flex > svg').click();
     console.log('2')
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
