@@ -111,6 +111,9 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     // Wait for a specific amount of time (in milliseconds)
     await page.waitForTimeout(10000); // Wait for 10 second
     console.log('finish countdown')
+    await page.locator('div:nth-child(2) > .flex > svg').click();
+    await page.locator('.flex > .flex > svg').first().click();
+    await page.locator('div:nth-child(2) > .flex > svg').click();
     const html = await page.content()
     console.log(html)
     await page.locator('li').filter({ hasText: 'Toxic Sentence GeneratorThis' }).click();
