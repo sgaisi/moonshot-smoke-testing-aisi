@@ -40,10 +40,10 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     const MOONSHOT_URL: string | undefined = process.env.MOONSHOT_URL;
     const MOONSHOT_PORT_NUMBER: string | undefined = process.env.MOONSHOT_PORT_NUMBER;
 
-    // await page.setViewportSize({
-    //     width: 1920,
-    //     height: 1080,
-    // });
+    await page.setViewportSize({
+        width: 1920,
+        height: 1080,
+    });
 
     console.log(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!)
     await page.goto(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!);
