@@ -100,15 +100,34 @@ test('test_red_teaming_spinner_check', async ({browserName, page}) => {
     // Red Teaming
     await page.goto('http://localhost:3000');
     console.log('Red Teaming')
-    await page.getByRole('link', { name: 'Start Red Teaming' }).click();
+    await page.getByRole('link', {name: 'Start Red Teaming'}).click();
     // await page.getByRole('button', {name: 'Start New Session'}).click();
     await page.reload()
     await page.getByLabel('Select ' + ENDPOINT_NAME).check();
     await page.locator('div:nth-child(2) > .flex > svg').click();
-  await page.locator('.flex > .flex > svg').first().click();
-  await page.locator('div:nth-child(2) > .flex > svg').click();
+    await page.locator('.flex > .flex > svg').first().click();
+    await page.locator('div:nth-child(2) > .flex > svg').click();
     const html = await page.content()
     console.log(html)
+            // Listen to network responses
+    page.on('response', async (response) => {
+        const url = response.url();
+        const status = response.status();
+
+        console.log(`Response URL: ${url}, Status: ${status}`);
+
+        try {
+            // Try to get the response body as JSON
+            const json = await response.json();  // Parse the response body as JSON
+            console.log('Response JSON:', JSON.stringify(json, null, 2));
+        } catch (e) {
+            console.error('Error parsing JSON response:', e.message);
+
+            // Fallback: Log the raw response body if not JSON
+            const body = await response.body();
+            console.log('Response Body:', body.toString());
+        }
+    });
     await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
     await page.getByPlaceholder('Give this session a unique').fill(RUNNER_NAME);
