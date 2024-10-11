@@ -78,7 +78,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByLabel('Select common-risk-easy').check();
     await page.getByRole('button', {name: 'OK'}).click();
     await page.getByLabel('Next View').click();
-    await page.getByLabel('Select '+ENDPOINT_NAME).check();
+    await page.getByLabel('Select ' + ENDPOINT_NAME).check();
     await page.getByLabel('Next View').click();
     await page.getByPlaceholder('Give this session a unique').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
@@ -104,8 +104,11 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('1')
     await page.locator('div:nth-child(2) > .flex > svg').click();
     console.log('click next already')
-    await expect(page.getByRole('heading', { name: 'Would you like to use any of' })).toBeVisible();
+    await expect(page.getByRole('heading', {name: 'Would you like to use any of'})).toBeVisible();
     console.log('pass page check')
+    // Wait for a specific amount of time (in milliseconds)
+    await page.waitForTimeout(10000); // Wait for 1 second
+    console.log('finish countdown')
     await page.getByText('This module generates toxic').click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
     console.log('2')
