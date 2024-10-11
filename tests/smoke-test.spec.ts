@@ -100,7 +100,7 @@ test('test_red_teaming_spinner_check', async ({browserName, page}) => {
     // Red Teaming
     await page.goto('http://localhost:3000');
     console.log('Red Teaming')
-    await page.getByRole('listitem').nth(2).click();
+    await page.getByRole('link', { name: 'Start Red Teaming' }).click();
     await page.getByRole('button', {name: 'Start New Session'}).click();
     await page.getByText(ENDPOINT_NAME!).click();
     await page.locator('div:nth-child(2) > .flex > svg').click();
