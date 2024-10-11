@@ -31,6 +31,124 @@ async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONS
     await expect(page.getByRole('heading', {name: 'moonshot utilities'})).toBeVisible();
 }
 
+export async function create_endpoint_steps(page, name, uri, token, connectorType, maxCallPerSec, maxConcurr, otherParams, uriSkipCheck?: boolean) {
+    await page.goto('http://localhost:3000/endpoints/new');
+    await page.getByPlaceholder('Name of the model').click();
+    await page.getByPlaceholder('Name of the model').fill(name);
+    await page.locator('.aiv__input-container').click();
+    await page.getByRole('option', {name: connectorType, exact: true}).click();
+    await page.getByPlaceholder('URI of the remote model').click();
+    await page.getByPlaceholder('URI of the remote model').fill(uri);
+    await page.getByPlaceholder('Access token for the remote').click();
+    await page.getByPlaceholder('Access token for the remote').fill(token);
+    await page.getByText('More Configs').click();
+    if (maxCallPerSec != '') {
+        await page.locator('.aiv__input-container').first().click();
+        await page.getByRole('option', {name: maxCallPerSec}).click();
+    }
+    if (maxConcurr != '') {
+        await page.locator('div:nth-child(2) > label > .css-fyq6mk-container > .aiv__control > .aiv__value-container > .aiv__input-container').click();
+        await page.getByRole('option', {name: maxConcurr}).click();
+    }
+    await page.getByPlaceholder('Additional parameters').click();
+    await page.getByPlaceholder('Additional parameters').fill(otherParams);
+    await page.getByRole('button', {name: 'OK'}).click();
+    await page.getByRole('button', {name: 'Save'}).click();
+
+    //Verify Expected redirection
+    await expect.soft(page).toHaveURL(new RegExp('^http://localhost:3000/endpoints'));
+    //Verify Endpoint Created Successfully
+    await page.getByRole('link', {name: name}).click();
+    await expect(page.locator('h3')).toHaveText(name, {timeout: 600000})
+    if (uriSkipCheck == false) {
+        if (uri != '') {
+            await expect(page.getByText('uri', {exact: true})).toBeVisible();
+        } else {
+            await expect(page.getByText('Not set').first()).toBeVisible();
+        }
+    }
+
+    if (maxCallPerSec != '') {
+        await page.getByText(maxCallPerSec, {exact: true}).isVisible();
+    } else {
+        await expect(page.getByText('10', {exact: true})).toBeVisible();
+    }
+    if (maxConcurr != '') {
+        await expect(page.getByText(maxConcurr, {exact: true})).toBeVisible();
+    } else {
+        await expect(page.getByText('1', {exact: true})).toBeVisible()
+    }
+    await expect(page.getByText(otherParams)).toBeVisible()
+}
+
+
+test('test_red_teaming_spinner_check', async ({browserName, page}) => {
+    // test.setTimeout(3600000); //set test timeout to 1 hour
+    test.setTimeout(1200000); //set test timeout to 1 hour
+    const FIRE_RED_TEAMING_BTN: number = Math.floor(Math.random() * 1000000000)
+    // // Check if the browser is WebKit
+    // test.skip(browserName === 'webkit', 'This test is skipped on WebKit');
+    // // Check if the browser is FireFox
+    // test.skip(browserName === 'firefox', 'This test is skipped on WebKit');
+    if (browserName == 'webkit')
+        await page.waitForTimeout(60000)
+    else if (browserName == 'firefox')
+        await page.waitForTimeout(30000)
+    const ENDPOINT_NAME: string = "Azure OpenAI " + Math.floor(Math.random() * 1000000000);
+    const RUNNER_NAME: string = "Test " + Math.floor(Math.random() * 1000000000);
+    await create_endpoint_steps(page, ENDPOINT_NAME, process.env.URI, process.env.TOKEN, 'azure-openai-connector', '2', '', '{\n      "timeout": 300,\n      "allow_retries": true,\n      "num_of_retries": 3,\n      "temperature": 0.5,\n      "model": "gpt-4o"\n  }', true)
+    // Red Teaming
+    console.log('Red Teaming')
+    await page.getByRole('listitem').nth(2).click();
+    await page.getByRole('button', {name: 'Start New Session'}).click();
+    await page.getByText(ENDPOINT_NAME!).click();
+    await page.locator('div:nth-child(2) > .flex > svg').click();
+    await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
+    await page.locator('div:nth-child(3) > .flex > svg').click();
+    await page.getByPlaceholder('Give this session a unique').fill(RUNNER_NAME);
+    await page.getByRole('button', {name: 'Start'}).click();
+    await page.getByRole('button', {name: 'Prompt Template'}).click();
+    await page.locator('div').filter({hasText: /^mmlu$/}).click();
+    await page.getByRole('button', {name: 'Use'}).click();
+    await page.getByRole('button', {name: 'Context Strategy'}).click();
+    await page.locator('div').filter({hasText: /^Add Previous Prompt$/}).first().click();
+    await page.getByRole('button', {name: 'Use'}).click();
+    await page.getByPlaceholder('Write a prompt...').click();
+    await page.getByPlaceholder('Write a prompt...').fill('Generate Something');
+    await page.getByRole('button', {name: /send/i}).click();
+    await expect(page.getByRole('status').locator('div').nth(1)).toBeVisible();
+
+    // Create the locator for the element
+    const elementLocator = page.getByRole('status').locator('div').nth(1);
+
+    // Wait for the element to appear with a custom timeout
+    await elementLocator.waitFor({state: 'visible'}); // 60 seconds
+
+    // Optionally, perform any actions or wait for the element to disappear
+    await elementLocator.waitFor({state: 'hidden'}); // 60 seconds
+
+
+    // Assert that the element is no longer visible
+    const isVisible = await elementLocator.isVisible();
+    expect(isVisible).toBeFalsy();
+
+    await expect(page.locator('div > li').nth(2)).toBeVisible();
+    await expect(page.locator('div > li').nth(4)).toBeVisible();
+    await expect(page.locator('div > li').nth(7)).toBeVisible();
+    // Locate the <h1> element with class "text-right" and text "Automated red teaming agent"
+    const h1Element = page.locator('h1.text-right').nth(0);
+
+    // Assert that the <h1> element with class "text-right" contains the text "Automated red teaming agent"
+    await expect(h1Element).toBeVisible({timeout: 1200000});
+    await expect(h1Element).toHaveText('Automated red teaming agent');
+    // Locate the <h1> element with class "text-left" and text "Response"
+    const h2Element = page.locator('h1.text-left').nth(0);
+
+    await expect(h2Element).toBeVisible({timeout: 1200000})
+    await expect(h2Element).toHaveText('Response');
+
+});
+
 test('Moonshot UI Smoke Test', async ({page}) => {
 
     const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS;
@@ -112,9 +230,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('pass page check')
     // Wait for a specific amount of time (in milliseconds)
     // await page.waitForTimeout(1200000); // Wait for 10 second
-    console.log('finish countdown')
-    await page.locator('.flex > .flex > svg').first().click();
-    await page.locator('div:nth-child(2) > .flex > svg').click();
+    // console.log('finish countdown')
     await page.locator('li').filter({ hasText: 'Toxic Sentence GeneratorThis' }).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
     console.log('2')
