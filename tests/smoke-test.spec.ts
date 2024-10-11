@@ -104,7 +104,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('1')
     await page.locator('div:nth-child(2) > .flex > svg').click();
     console.log('click next already')
-    await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
+    await page.locator('li').filter({ hasText: 'Toxic Sentence GeneratorThis' }).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
     console.log('2')
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
