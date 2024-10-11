@@ -101,8 +101,8 @@ test('test_red_teaming_spinner_check', async ({browserName, page}) => {
     await page.goto('http://localhost:3000');
     console.log('Red Teaming')
     await page.getByRole('link', { name: 'Start Red Teaming' }).click();
-    await page.getByRole('button', {name: 'Start New Session'}).click();
-    await page.getByText(ENDPOINT_NAME!).click();
+    // await page.getByRole('button', {name: 'Start New Session'}).click();
+    await page.getByLabel('Select ' + ENDPOINT_NAME).check();
     await page.locator('div:nth-child(2) > .flex > svg').click();
     await page.getByRole('heading', {name: 'Toxic Sentence Generator'}).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
