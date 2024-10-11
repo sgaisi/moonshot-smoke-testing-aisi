@@ -96,7 +96,7 @@ test('test_red_teaming_spinner_check', async ({browserName, page}) => {
         await page.waitForTimeout(30000)
     const ENDPOINT_NAME: string = "Azure OpenAI " + Math.floor(Math.random() * 1000000000);
     const RUNNER_NAME: string = "Test " + Math.floor(Math.random() * 1000000000);
-    await create_endpoint_steps(page, ENDPOINT_NAME, process.env.URI, process.env.TOKEN, 'azure-openai-connector', '2', '', '{\n      "timeout": 300,\n      "allow_retries": true,\n      "num_of_retries": 3,\n      "temperature": 0.5,\n      "model": "gpt-4o"\n  }', true)
+    await create_endpoint_steps(page, ENDPOINT_NAME, process.env.AZURE_OPENAI_URI, process.env.AZURE_OPENAI_TOKEN, 'azure-openai-connector', '2', '', '{\n      "timeout": 300,\n      "allow_retries": true,\n      "num_of_retries": 3,\n      "temperature": 0.5,\n      "model": "gpt-4o"\n  }', true)
     // Red Teaming
     console.log('Red Teaming')
     await page.getByRole('listitem').nth(2).click();
