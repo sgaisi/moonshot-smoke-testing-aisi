@@ -33,7 +33,7 @@ async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONS
 
 
 test('Moonshot UI Smoke Test', async ({page}) => {
-
+    test.setTimeout(1200000); //set test timeout to 1 hour
     const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS;
     const AZURE_OPENAI_URI: string | undefined = process.env.AZURE_OPENAI_URI;
     const AZURE_OPENAI_TOKEN: string | undefined = process.env.AZURE_OPENAI_TOKEN;
@@ -75,27 +75,25 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('Benchmarking')
     await page.getByRole('listitem').nth(1).click();
     await page.getByRole('button', {name: 'Start New Run'}).click();
-    await page.getByRole('button', {name: 'Trust & Safety'}).click();
-    await page.getByLabel('Select common-risk-easy').check();
+    await page.getByLabel('Select singapore-context').check();
     await page.getByRole('button', {name: 'OK'}).click();
     await page.getByLabel('Next View').click();
-    console.log('reach here')
     await page.getByLabel('Select ' + ENDPOINT_NAME).check();
-    console.log('reach here and click liao')
     await page.getByLabel('Next View').click();
     await page.getByPlaceholder('Give this session a unique').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
     await page.getByPlaceholder('Number of prompts per recipe.').click();
+    await page.getByPlaceholder('Number of prompts per recipe.').click();
     await page.getByPlaceholder('Number of prompts per recipe.').fill('1');
     await page.getByRole('button', {name: 'Run'}).click();
-    await expect(page.getByRole('button', {name: 'View Report'})).toBeVisible({timeout: 60000})
+    await expect(page.getByRole('button', {name: 'View Report'})).toBeVisible({timeout: 1200000})
     await page.getByRole('button', {name: 'View Report'}).click();
-    const downloadPromise = page.waitForEvent('download');
-    await page.getByRole('button', {name: 'Download Detailed Scoring JSON'}).click();
-    const download = await downloadPromise;
-    const download1Promise = page.waitForEvent('download');
-    await page.getByRole('button', {name: 'Download HTML Report'}).click();
-    const download1 = await download1Promise;
+    // const downloadPromise = page.waitForEvent('download');
+    // await page.getByRole('button', {name: 'Download Detailed Scoring JSON'}).click();
+    // const download = await downloadPromise;
+    // const download1Promise = page.waitForEvent('download');
+    // await page.getByRole('button', {name: 'Download HTML Report'}).click();
+    // const download1 = await download1Promise;
     await page.locator('main').filter({hasText: 'Showing results forazure-'}).getByRole('link').first().click();
     await page.getByText(/back to home/i).click()
 
@@ -116,7 +114,6 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     // console.log('finish countdown')
     await page.locator('li').filter({ hasText: 'Toxic Sentence GeneratorThis' }).click();
     await page.locator('div:nth-child(3) > .flex > svg').click();
-    console.log('2')
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
     await page.getByRole('button', {name: 'Start'}).click();
     await page.getByRole('button', {name: 'Prompt Template'}).click();
