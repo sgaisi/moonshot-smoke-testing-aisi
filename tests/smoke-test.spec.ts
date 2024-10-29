@@ -66,6 +66,8 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByPlaceholder('Access token for the remote').click();
     await page.getByPlaceholder('Access token for the remote').fill(AZURE_OPENAI_TOKEN!);
     await page.getByText('More Configs').click();
+    await page.getByPlaceholder('Model of the model endpoint').click();
+    await page.getByPlaceholder('Model of the model endpoint').fill('gpt-4o');
     await page.getByPlaceholder('Additional parameters').click();
     await page.getByPlaceholder('Additional parameters').fill(ADDITIONAL_PARAMETERS!);
     await page.getByRole('button', {name: 'OK'}).click();
@@ -103,7 +105,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByRole('button', {name: 'Start New Session'}).click();
     await page.getByText(ENDPOINT_NAME!).click();
     console.log('1')
-    await page.locator('div:nth-child(2) > .flex > svg').click();
+    await page.getByLabel('Next View').click();
     console.log('click next already')
     const html = await page.content()
     console.log(html)
@@ -113,9 +115,9 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     // await page.waitForTimeout(1200000); // Wait for 10 second
     // console.log('finish countdown')
     await page.locator('li').filter({ hasText: 'Toxic Sentence GeneratorThis' }).click();
-    await page.locator('div:nth-child(3) > .flex > svg').click();
+    await page.getByLabel('Next View').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
-    await page.getByRole('button', {name: 'Start'}).click();
+    await page.getByRole('button', {name: 'Run'}).click();
     await page.getByRole('button', {name: 'Prompt Template'}).click();
     console.log('3')
     await page.locator('div').filter({hasText: /^mmlu$/}).click();
