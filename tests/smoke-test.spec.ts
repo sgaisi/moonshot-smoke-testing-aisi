@@ -65,9 +65,9 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByPlaceholder('URI of the remote model').fill(AZURE_OPENAI_URI!);
     await page.getByPlaceholder('Access token for the remote').click();
     await page.getByPlaceholder('Access token for the remote').fill(AZURE_OPENAI_TOKEN!);
-    await page.getByText('More Configs').click();
     await page.getByPlaceholder('Model of the model endpoint').click();
     await page.getByPlaceholder('Model of the model endpoint').fill('gpt-4o');
+    await page.getByText('More Configs').click();
     await page.getByPlaceholder('Additional parameters').click();
     await page.getByPlaceholder('Additional parameters').fill(ADDITIONAL_PARAMETERS!);
     await page.getByRole('button', {name: 'OK'}).click();
