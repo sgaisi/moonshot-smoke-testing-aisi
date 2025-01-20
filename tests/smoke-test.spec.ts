@@ -69,7 +69,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByPlaceholder('Model of the model endpoint').fill('gpt-4o');
     await page.getByText('More Configs').click();
     await page.getByPlaceholder('Additional parameters').click();
-    await page.getByPlaceholder('Additional parameters').fill(ADDITIONAL_PARAMETERS!);
+    await page.getByPlaceholder('Additional parameters').fill('{\n "timeout": 300,\n "max_attempts": 3,\n "temperature": 0.5\n}');
     await page.getByRole('button', {name: 'OK'}).click();
     await page.getByRole('button', {name: 'Save'}).click();
 
