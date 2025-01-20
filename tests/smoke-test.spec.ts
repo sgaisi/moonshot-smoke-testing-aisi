@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 
-const __dirname: string = '.'
+const __dirname: string = '..'
 
 // Read from ".env" file.
 dotenv.config({path: path.resolve(__dirname, '.env')});
@@ -83,9 +83,6 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByLabel('Next View').click();
     await page.getByPlaceholder('Give this session a unique').click();
     await page.getByPlaceholder('Give this session a unique').fill('Test ' + Math.floor(Math.random() * 1000000000));
-    await page.getByPlaceholder('Number of prompts per recipe.').click();
-    await page.getByPlaceholder('Number of prompts per recipe.').click();
-    await page.getByPlaceholder('Number of prompts per recipe.').fill('1');
     await page.getByRole('button', {name: 'Run'}).click();
     await expect(page.getByRole('button', {name: 'View Report'})).toBeVisible({timeout: 1200000})
     await page.getByRole('button', {name: 'View Report'}).click();
