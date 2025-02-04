@@ -58,13 +58,13 @@ To execute the smoke tests:
 
    Open the .env file in a text editor and define your environment variables:
    ```bash
-  # .env
-  AZURE_OPENAI_URI = 
-  AZURE_OPENAI_TOKEN = 
-  ADDITIONAL_PARAMETERS = '{      "timeout": 300, "max_attempts": 3,   "temperature": 0.5 }'
-  MOONSHOT_URL = localhost
-  MOONSHOT_PORT_NUMBER = 3000
-  CLI_DIR = ''# Path of Moonshot Library
+   # .env
+   AZURE_OPENAI_URI = 
+   AZURE_OPENAI_TOKEN = 
+   ADDITIONAL_PARAMETERS = '{      "timeout": 300, "max_attempts": 3,   "temperature": 0.5 }'
+   MOONSHOT_URL = localhost
+   MOONSHOT_PORT_NUMBER = 3000
+   CLI_DIR = ''# Path of Moonshot Library
    ```
 
 1. **Navigate to the Test Directory**:
