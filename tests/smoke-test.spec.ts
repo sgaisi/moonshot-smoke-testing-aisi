@@ -1,10 +1,9 @@
 import {test, expect} from '@playwright/test';
-import {main_page_startup} from './common';
 import dotenv from 'dotenv';
 import path from 'path';
 
 
-const __dirname: string = '..'
+const __dirname: string = '.'
 
 // Read from ".env" file.
 dotenv.config({path: path.resolve(__dirname, '.env')});
@@ -22,7 +21,6 @@ dotenv.config({path: path.resolve(__dirname, '.env')});
 async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONSHOT_PORT_NUMBER: string) {
     // Check if the left panel is correct and visible by looking for unique text within it (has the Added on)
     await page.goto(MOONSHOT_URL! + ":" + MOOONSHOT_PORT_NUMBER!);
-    await main_page_startup(page);
     const linkTabButton = page.locator('#navContainer').getByRole('link').nth(4)
     await expect(linkTabButton).toBeVisible();
     await linkTabButton.click();
@@ -49,10 +47,6 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!)
     await page.goto(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!);
 
-
-    // Check the main_page_startup pages
-    await main_page_startup(page);
-
     // Create Endpoint
     console.log('Create Endpoint')
     await page.getByRole('listitem').nth(0).click();
@@ -75,6 +69,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
 
     // Benchmarking
     console.log('Benchmarking')
+    await page.goto(MOONSHOT_URL! + ":" + MOONSHOT_PORT_NUMBER!);
     await page.getByRole('listitem').nth(1).click();
     await page.getByRole('button', {name: 'Start New Run'}).click();
     await page.getByLabel('Select ' + ENDPOINT_NAME).check();
@@ -151,32 +146,4 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await expect(page.getByRole('heading', {name: 'Context Strategies'})).toBeVisible();
     await expect(page.locator('h4').nth(0)).toContainText('Add Previous Prompt');
     await expect(page.locator('body')).toContainText('This is a sample context strategy that adds in previous prompts to the current prompt. [Default: 5]');
-})
-
-test.skip('CLI Test', async ({page}) => {
-
-    // const moonshot_cli = spawn('python3', ['-m', 'moonshot', 'cli', 'interactive'], { cwd:"/Users/benedict/Documents/GitHub/Moonshot-Projects/moonshot" })
-
-    // const moonshot_cli = spawn('/Users/benedict/Documents/GitHub/Moonshot-Projects/moonshot/',['-m', "moonshot cli", "\"run_recipe \"my new recipe runner\" \"['bbq','mmlu']\" \"['azure-openai-gpt4o']\" -n 2 -r 2 -s \"You are an intelligent AI\"\""]);
-    // const moonshot_cli = spawn('python3', ['-m', "moonshot cli \"run_recipe \"my new recipe runner\" \"['bbq','mmlu']\" \"['azure-openai-gpt4o']\" -n 2 -r 2 -s \"You are an intelligent AI\"\""], { cwd: "/Users/benedict/Documents/GitHub/Moonshot-Projects/"})
-
-    // child.on('message', function (m) {
-    //     console.log('Parent process received:', m);
-    // });
-    // moonshot_cli.stdout.on('data', (data) => {
-    //     console.log(`stdout: ${data}`);
-    // });
-
-    // moonshot_cli.stderr.on('data', (data) => {
-    //     console.error(`stderr: ${data}`);
-    // });
-
-    // moonshot_cli.on('message', function (m) {
-    //     console.log('Parent process received:', m);
-    // });
-
-    // moonshot_cli.on('close', (code) => {
-    //     console.log(`child process exited with code ${code}`);
-    // });
-
 })
