@@ -11,6 +11,7 @@ Before running the integration tests, ensure you have the following installed:
 - **Python**: Version 3.11 or later
 - **Node.js**: Version 20.11.1 LTS or later (if testing the Web UI)
 - **Git**: For version control
+- **Moonshot**: Moonshot Setup consist of Moonshot , Moonshot-Data & Moonshot UI
 
 ## Installation
 
@@ -24,6 +25,8 @@ Before running the integration tests, ensure you have the following installed:
 ## Running the CLI Smoke Test
 
 To execute the smoke tests:
+
+__*Make sure Moonshot is already Setup__
 
 1. **Set Up the Virtual Environment**:
 
@@ -58,13 +61,13 @@ To execute the smoke tests:
 
    Open the .env file in a text editor and define your environment variables:
    ```bash
-  # .env
-  AZURE_OPENAI_URI = 
-  AZURE_OPENAI_TOKEN = 
-  ADDITIONAL_PARAMETERS = '{      "timeout": 300, "max_attempts": 3,   "temperature": 0.5 }'
-  MOONSHOT_URL = localhost
-  MOONSHOT_PORT_NUMBER = 3000
-  CLI_DIR = ''# Path of Moonshot Library
+   # .env
+   AZURE_OPENAI_URI = 
+   AZURE_OPENAI_TOKEN = 
+   ADDITIONAL_PARAMETERS = '{      "timeout": 300, "max_attempts": 3,   "temperature": 0.5 }'
+   MOONSHOT_URL = localhost
+   MOONSHOT_PORT_NUMBER = 3000
+   CLI_DIR = ''# Path of Moonshot Library
    ```
 
 1. **Navigate to the Test Directory**:
@@ -116,10 +119,3 @@ Please ensure that your contributions align with the project's coding standards 
 ## License
 
 This project is licensed under the Apache-2.0 License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgements
-
-Special thanks to all contributors and the AI Verify Foundation for their support in developing and maintaining the Moonshot project.
-```
-
-This template provides a comprehensive guide for users and contributors, covering installation, usage, and contribution guidelines. Feel free to customize it further based on the specific details and requirements of your project. 
