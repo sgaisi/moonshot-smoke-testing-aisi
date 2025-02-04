@@ -25,6 +25,7 @@ Before running the integration tests, ensure you have the following installed:
 ## Running the CLI Smoke Test
 
 To execute the smoke tests:
+
 __*Make sure Moonshot is already Setup__
 
 1. **Set Up the Virtual Environment**:
