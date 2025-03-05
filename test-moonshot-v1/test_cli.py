@@ -58,6 +58,7 @@ def test_cli_smoke_test():
     stdout, stderr = process.communicate()
 
     print('Output:', stdout)
+    print('Output ERR:', stderr)
     # Split the output into lines
     output_lines = stdout.splitlines()
 
