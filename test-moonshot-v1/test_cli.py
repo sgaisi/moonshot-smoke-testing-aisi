@@ -7,7 +7,8 @@ load_dotenv()  # Load environment variables from .env file
 
 OPENAI_TOKEN = os.getenv('OPENAI_TOKEN')
 MOON_V1_CLI_DIR = os.getenv('MOON_V1_CLI_DIR')
-
+def check_result_file_exists(filepath):
+    assert os.path.isfile(filepath), f"Error: File '{filepath}' does not exist."
 def assert_run_benchmark_outcome(output_lines):
     output_lines = [line.replace(" ", "") for line in output_lines if line.strip()]
 
@@ -64,6 +65,7 @@ def test_cli_smoke_test():
 
     # Assert Results
     assert_run_benchmark_outcome(output_lines)
+    check_result_file_exists(MOON_V1_CLI_DIR + "/data/results/" + nameOfRunnerName + ".json")
 
     # Smoke Test for Scan Test Command
     nameOfRunnerName = "test_run_hallucination" + str(random_number)
@@ -101,3 +103,4 @@ def test_cli_smoke_test():
 
     # Assert Results
     assert_run_red_teaming_outcome(output_lines)
+    check_result_file_exists(MOON_V1_CLI_DIR + "/data/results/" + nameOfRunnerName + ".json")
