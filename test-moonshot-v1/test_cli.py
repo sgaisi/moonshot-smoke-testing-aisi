@@ -7,15 +7,34 @@ load_dotenv()  # Load environment variables from .env file
 
 OPENAI_TOKEN = os.getenv('OPENAI_TOKEN')
 MOON_V1_CLI_DIR = os.getenv('MOON_V1_CLI_DIR')
+
+def assert_run_benchmark_outcome(output_lines):
+    output_lines = [line.replace(" ", "") for line in output_lines if line.strip()]
+
+    assert "File written".replace(" ", "") in output_lines
+    assert "successfully at:".replace(" ", "") in output_lines
+    assert "data/results/my-benchm".replace(" ", "") in output_lines
+    assert "successfully created with".replace(" ", "") in output_lines
+
+def assert_run_red_teaming_outcome(output_lines):
+    output_lines = [line.replace(" ", "") for line in output_lines if line.strip()]
+    assert "File written".replace(" ", "") in output_lines
+    assert "successfully at:".replace(" ", "") in output_lines
+    assert "data/results/test_run_".replace(" ", "") in output_lines
+    assert "successfully created with".replace(" ", "") in output_lines
+    assert "run_id:".replace(" ", "") in output_lines
 def test_cli_smoke_test():
     # Smoke Test for Benchmarking Test Command
     # Generate a random number between 0 and 999,999,999 (inclusive)
     random_number = int(random.random() * 1000000000)
-    nameOfRunnerName = "my-benchmarking-runner-" + str(random_number)
+    dataset_module = "s3://s3-aiss-moonshot-dev-app-lite/data/dataset-mini/prompt_injection_payload_splitting"
+    connector_name = "my-gpt4o-mini"
+    nameOfRunnerName = "my-benchmarking-" + connector_name + "-" + dataset_module + "-" + str(random_number)
+    metric_module = "refusal_adapter"
 
     commands = [
-        "export OPENAI_API_KEY="+OPENAI_TOKEN,
-        "poetry run python __main__.py create-benchmark-test " + nameOfRunnerName + " mmlu-mini refusal_adapter my-gpt4o"
+        "export OPENAI_API_KEY=" + OPENAI_TOKEN,
+        "poetry run moonshot benchmark " + nameOfRunnerName + " " + dataset_module + " " + metric_module + " " + connector_name + ""
     ]
     # Join commands with '&&' to ensure the next runs only if the previous succeeds
     full_command = "&&".join(commands)
@@ -42,28 +61,17 @@ def test_cli_smoke_test():
     # Split the output into lines
     output_lines = stdout.splitlines()
 
-    # Get the last line of the output
-    line_12 = output_lines[-12]
-    line_12_expected = "File written"
-    line_11 = output_lines[-11]
-    line_11_expected = "successfully at:"
-    line_10 = output_lines[-10]
-    line_10_expected = "data/results/my-benchm"
-    print('=========================Output Last Line:', line_12)
-    print('=========================Output Last Line:', line_11)
-    print('=========================Output Last Line:', line_10)
-    assert line_12.replace(" ", "") == line_12_expected.replace(" ", "")
-    assert line_11.replace(" ", "") == line_11_expected.replace(" ", "")
-    assert line_10.replace(" ", "") == line_10_expected.replace(" ", "")
+    # Assert Results
+    assert_run_benchmark_outcome(output_lines)
 
     # Smoke Test for Scan Test Command
     nameOfRunnerName = "test_run_hallucination" + str(random_number)
     attack_module = "hallucination"
     metric_module = "refusal_adapter"
-    connector_name = "my-gpt4o"
+    connector_name = "my-gpt4o-mini"
     commands = [
         "export OPENAI_API_KEY=" + OPENAI_TOKEN,
-        "poetry run python __main__.py create-scan-test " + nameOfRunnerName + " " + attack_module + " " + metric_module + " " + connector_name + ""
+        "poetry run moonshot scan " + nameOfRunnerName + " "+attack_module+" "+metric_module+" "+connector_name+""
     ]
     # Join commands with '&&' to ensure the next runs only if the previous succeeds
     full_command = "&&".join(commands)
@@ -90,16 +98,5 @@ def test_cli_smoke_test():
     # Split the output into lines
     output_lines = stdout.splitlines()
 
-    # Get the last line of the output
-    line_13 = output_lines[-13]
-    line_13_expected = "File written"
-    line_12 = output_lines[-12]
-    line_12_expected = "successfully at:"
-    line_11 = output_lines[-11]
-    line_11_expected = "data/results/test_run_"
-    print('=========================Output Last Line:', line_13)
-    print('=========================Output Last Line:', line_12)
-    print('=========================Output Last Line:', line_11)
-    assert line_13.replace(" ", "") == line_13_expected.replace(" ", "")
-    assert line_12.replace(" ", "") == line_12_expected.replace(" ", "")
-    assert line_11.replace(" ", "") == line_11_expected.replace(" ", "")
+    # Assert Results
+    assert_run_red_teaming_outcome(output_lines)
