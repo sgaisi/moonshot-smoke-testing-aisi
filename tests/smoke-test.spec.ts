@@ -33,11 +33,11 @@ async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONS
 test('Moonshot UI Smoke Test', async ({page}) => {
     test.setTimeout(1200000); //set test timeout to 1 hour
     const ADDITIONAL_PARAMETERS: string | undefined = process.env.ADDITIONAL_PARAMETERS;
-    const AZURE_OPENAI_URI: string | undefined = process.env.AZURE_OPENAI_URI;
-    const AZURE_OPENAI_TOKEN: string | undefined = process.env.AZURE_OPENAI_TOKEN;
+    const OPENAI_URI: string | undefined = process.env.OPENAI_URI;
+    const OPENAI_TOKEN: string | undefined = process.env.OPENAI_TOKEN;
     const ENDPOINT_NAME: string = "Azure OpenAI " + Math.floor(Math.random() * 1000000000);
-    const MOONSHOT_URL: string | undefined = process.env.MOONSHOT_URL;
-    const MOONSHOT_PORT_NUMBER: string | undefined = process.env.MOONSHOT_PORT_NUMBER;
+    const MOONSHOT_URL: string = process.env.MOONSHOT_URL || "http://localhost";
+    const MOONSHOT_PORT_NUMBER: string = process.env.MOONSHOT_PORT_NUMBER || "3000";
 
     await page.setViewportSize({
         width: 1920,
@@ -54,11 +54,11 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     await page.getByPlaceholder('Name of the model').click();
     await page.getByPlaceholder('Name of the model').fill(ENDPOINT_NAME);
     await page.locator('.aiv__input-container').click();
-    await page.getByRole('option', {name: 'azure-openai-connector'}).click();
+    await page.getByRole('option', {name: 'openai-connector', exact: true}).click();
     await page.getByPlaceholder('URI of the remote model').click();
-    await page.getByPlaceholder('URI of the remote model').fill(AZURE_OPENAI_URI!);
+    await page.getByPlaceholder('URI of the remote model').fill(OPENAI_URI!);
     await page.getByPlaceholder('Access token for the remote').click();
-    await page.getByPlaceholder('Access token for the remote').fill(AZURE_OPENAI_TOKEN!);
+    await page.getByPlaceholder('Access token for the remote').fill(OPENAI_TOKEN!);
     await page.getByPlaceholder('Model of the model endpoint').click();
     await page.getByPlaceholder('Model of the model endpoint').fill('gpt-4o');
     await page.getByText('More Configs').click();
