@@ -110,3 +110,41 @@ def test_cli_red_teaming():
     else:
         print(f"File does not exist: {file_path}")
         pytest.fail()
+
+def test_cli_agentic():
+    process = subprocess.Popen(
+        COMMAND,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        text=True,
+        cwd=str(CLI_DIR),
+    )
+
+    print('Path:', str(CLI_DIR))
+    if process.stdin is None:
+        raise RuntimeError("Failed to create stdin for the subprocess")
+
+    # Update Endpoint
+    command = 'update_endpoint openai-gpt4o "[(\'name\', \'OpenAI GPT4o\'), (\'uri\', \''+str(OPENAI_URI)+'\'), (\'token\', \''+str(OPENAI_TOKEN)+'\'), (\'params\', {\'timeout\': 300, \'allow_retries\': True, \'num_of_retries\': 3, \'temperature\': 0.5, \'model\': \'gpt-4o\'})]"\n'
+    print('Command:', command)
+    process.stdin.write(command)
+    process.stdin.flush()
+
+    # Run agentic cookbook
+    random_number = int(random.random() * 1000000000)
+    nameOfRunnerName = "smoke test agentic runner " + str(random_number)
+    command = 'run_cookbook "' + nameOfRunnerName + '" "[\'AISI-JT3-en\']" "[\'openai-gpt4o\']" -l agentic -n 1 -r 1 -s ""\n'
+    process.stdin.write(command)
+    process.stdin.flush()
+
+    # Capture the output and errors
+    stdout, stderr = process.communicate()
+    print('Output:', stdout)
+
+    # Check that results were successfully created
+    output_lines = stdout.splitlines()
+    last_line = output_lines[-20]
+    print('=========================Output Last Line:', last_line)
+    assert last_line.replace(" ", "") == "CookbookResult"
