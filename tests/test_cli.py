@@ -51,6 +51,8 @@ def test_cli_benchmark():
     # Split the output into lines
     output_lines = stdout.splitlines()
 
+    print('StdErr:', stderr)
+
     # Get the last line of the output
     last_line = output_lines[-16]
     print('=========================Output Last Line:', last_line)
@@ -92,6 +94,8 @@ def test_cli_red_teaming():
 
     print('Output:', stdout)
 
+    print('StdErr:', stderr)
+
     if os.path.exists(file_path):
         print(f"File exists: {file_path}")
         assert True
@@ -132,6 +136,8 @@ def test_cli_agentic():
     # Capture the output and errors
     stdout, stderr = process.communicate()
     print('Output:', stdout)
+
+    print('StdErr:', stderr)
 
     # Check that results were successfully created
     output_lines = stdout.splitlines()
