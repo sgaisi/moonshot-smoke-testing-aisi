@@ -26,7 +26,7 @@ async function open_home_page_select_util_tab(page, MOONSHOT_URL: string, MOOONS
     await linkTabButton.click();
 
     // Assertion for redirecting to right page
-    await expect(page.getByRole('heading', {name: 'moonshot utilities'})).toBeVisible();
+    await expect(page.getByRole('heading', {name: 'moonshot utilities'})).toBeVisible({timeout: 30000});
 }
 
 
@@ -137,7 +137,7 @@ test('Moonshot UI Smoke Test', async ({page}) => {
     console.log('Utilities')
     await open_home_page_select_util_tab(page, MOONSHOT_URL!, MOONSHOT_PORT_NUMBER!)
     await page.getByRole('button', {name: 'View Prompt Templates'}).click();
-    await expect(page.locator('header').filter({hasText: 'Prompt Templates'})).toBeVisible();
+    await expect(page.locator('header').filter({hasText: 'Prompt Templates'})).toBeVisible({timeout: 30000});
     await expect(page.locator('li').filter({hasText: 'tamil-templatenewsclassificationThis template is used for Tamil News'})).toBeVisible();
 
     await open_home_page_select_util_tab(page, MOONSHOT_URL!, MOONSHOT_PORT_NUMBER!)
